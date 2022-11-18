@@ -63,4 +63,80 @@
 # Casual
 
 # Given string
-# 
+# Given character
+# Set 3 as the occurance to select
+# Iterate over each index, subtracting 1 for each match
+# Return index when equal to 0
+
+# Formal
+
+# START
+
+# Given a string called string, determine the index of the third occurence of a given character ("x")
+  
+# SET count = 3
+# Iterate over each character in the string 
+# Use && operator
+# If string_character = x is false, short circuit
+# If string_character = x is TRUE 
+# count = count - 1
+# if count = 0,  evaluate true
+# else,  evaluate false
+# string Character = x is TRUE AND count = count - 1 is TRUE Return Index
+# If both do not evaluate true before end of string, return nil
+ 
+# END
+# Actual code: Found solution and pseudo code in fellow student's Github, now i understand it.
+
+def third(string, chara)
+   counter = 3
+   string.each_char.find_index do |y|
+      y == chara && (counter = counter - 1) == 0
+   end
+ end
+ 
+ p third("axbxcdxex", "x")
+
+# 5) a method that takes two arrays of numbers and returns the result of merging the arrays. The elements 
+# of the first array should become the elements at the even indexes of the returned array, while the 
+# elements of the second array should become the elements at the odd indexes.
+
+# Casual
+
+# Given two arrays
+# Make new array
+# Add arrays to new array alternately
+# Stop when arrays are finished
+
+# Formal
+
+# START
+
+# Given two arrays
+# SET counter to 0
+# SET new array to empty
+# WHILE loop counter is lees than the length of given arrays
+# PUSH first array to new array
+# PUSH second array to new array
+# ADD 1 to counter, = counter
+# RETURN new array
+
+# END
+
+# Actual code found on Slack , wrote my own pseudocode
+array1 = [1,2,3]
+array2 = [4,5,6]
+
+def merge(arr_1, arr_2)
+   counter = 0
+   new_array = []
+ 
+   while count < arr_1.length
+     new_array << arr_1[count]
+     new_array << arr_2[count]
+     counter += 1
+   end
+   new_array
+ end
+
+ p merge(array1,array2)
