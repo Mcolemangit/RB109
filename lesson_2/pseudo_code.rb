@@ -131,7 +131,7 @@ def merge(arr_1, arr_2)
    counter = 0
    new_array = []
  
-   while count < arr_1.length
+   while counter < arr_1.length
      new_array << arr_1[count]
      new_array << arr_2[count]
      counter += 1
