@@ -11,7 +11,7 @@ def prompt(message)
 end
 
 def valid_number?(num)
-    num.to_i() != 0
+    num.to_i != 0
     
 end
 
@@ -28,12 +28,12 @@ def operation_to_message(op)
     end
 end         
 
-prompt("Welcome to Calculator! Enter your name:")
+prompt "Welcome to Calculator! Enter your name:"
 
 name = ''
 loop do
-  name = Kernel.gets().chomp()
-  if name.empty?()
+  name = Kernel.gets.chomp
+  if name.empty?
     prompt("Make sure to use a valid name.")
   else
     break 
@@ -46,7 +46,7 @@ loop do #main loop
     number1 = ''
     loop do 
     prompt("What's the first number?")
-    number1 = Kernel.gets().chomp()
+    number1 = Kernel.gets.chomp
 
     if valid_number?(number1)
         break
@@ -58,7 +58,7 @@ loop do #main loop
     number2 = ''
     loop do 
     prompt("What's the second number?")
-    number2 = Kernel.gets().chomp()
+    number2 = Kernel.gets.chomp
     
     if valid_number?(number2)
         break
@@ -90,18 +90,18 @@ loop do #main loop
     prompt("#{operation_to_message(operator)} the two numbers...")
     result = case operator
             when '1'
-                number1.to_i() + number2.to_i()
+                number1.to_i + number2.to_i
             when '2'
-                number1.to_i() - number2.to_i()
+                number1.to_i - number2.to_i
             when '3'
-                number1.to_i() * number2.to_i()
+                number1.to_i * number2.to_i
             when '4'
-                number1.to_f() / number2.to_f()
+                number1.to_f / number2.to_f
             end
 
     prompt("The result is #{result}")
 
     prompt("Do you want to perform another calculation? (Y to calculate again)")
-    answer = Kernel.gets().chomp()
-    break unless answer.downcase().start_with?('y')
+    answer = Kernel.gets.chomp
+    break unless answer.downcase.start_with?('y')
 end
