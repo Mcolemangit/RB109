@@ -35,7 +35,9 @@ loop do # main loop
     prompt(MESSAGES['duration'])
     loan_duration = gets.chomp.split
 
-    if loan_duration.any? { |x| ['month', 'months', 'year', 'years'].include? x }
+    if loan_duration.any? do |x|
+         ['month', 'months', 'year', 'years'].include? x
+       end
       break
     else
       prompt(MESSAGES['invalid2'])
@@ -61,7 +63,7 @@ loop do # main loop
   monthly_apr = (apr / 100) / 12
 
   if loan_duration.include?('year') || loan_duration.include?('years')
-    
+
     months = length * 12
     monthly_payment = loan_amount.to_i * (monthly_apr / (1 - (1 + monthly_apr)**(-months)))
   else
