@@ -2,7 +2,7 @@ require 'yaml'
 MESSAGES = YAML.load_file('loan_calc_messages.yml')
 
 def prompt(message)
-  puts "#{message}"
+  puts message
 end
 
 def integer?(num)
@@ -17,6 +17,10 @@ def number?(num)
   integer?(num) || float?(num)
 end
 
+def monthly_payment(l, j, n)
+  l * (j / (1 - (1 + j)**(-n)))
+end
+
 loop do # main loop
   loan_amount = ''
   loop do
@@ -29,6 +33,8 @@ loop do # main loop
       prompt(MESSAGES['invalid'])
     end
   end
+
+  loan_amount = loan_amount.to_i
 
   loan_duration = ''
   loop do
@@ -63,14 +69,13 @@ loop do # main loop
   monthly_apr = (apr / 100) / 12
 
   if loan_duration.include?('year') || loan_duration.include?('years')
-
     months = length * 12
-    monthly_payment = loan_amount.to_i * (monthly_apr / (1 - (1 + monthly_apr)**(-months)))
+    result = monthly_payment(loan_amount, monthly_apr, months)
   else
-    monthly_payment = loan_amount.to_i * (monthly_apr / (1 - (1 + monthly_apr)**(-length)))
+    result = monthly_payment(loan_amount, monthly_apr, length)
   end
 
-  puts " Your monthly payment is #{monthly_payment}."
+  puts "Your monthly payment is #{result}."
 
   prompt(MESSAGES['again'])
   answer = Kernel.gets.chomp
