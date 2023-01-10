@@ -20,41 +20,62 @@ end
 
 def display_results(player, computer)
   if win?(player, computer)
-    prompt("You won!")
+    ("You won!")
   elsif win?(computer, player)
-    prompt("Computer won!")
+    ("Computer won!")
   else
-    prompt("It's a tie!")
+    ("It's a tie!")
   end
 end
 
-
 loop do
-  choice = ''
-  ans = ''
-  loop do
-    prompt("Choose one: #{VALID_CHOICES.values}.
-           (Example: 'r' for rock etc. For 'spock' specifiy 'sp'.) ")
-    choice = gets.chomp
-    ans = VALID_CHOICES.select { |key, _| key == choice }
+  comp_count = 0
+  player_count = 0
+  prompt(" Welcome to RPSLS! Choose one: #{VALID_CHOICES.values}.
+    (Example: 'r' for rock etc. For 'spock', specify 'sp'.)
+    First to win three games wins the match. Good Luck!")
+  until comp_count == 3 || player_count == 3
 
-    if ans.keys.include?(choice)
-      break
-    else
-      prompt("That's not as valid choice.")
+    choice = ''
+    ans = ''
+    loop do
+      choice = gets.chomp
+      ans = VALID_CHOICES.select { |key, _| key == choice }
+      system 'clear'
+      if ans.keys.include?(choice)
+        break
+      else
+        prompt("That's not as valid choice.")
+      end
+    end
+
+    comp_choice = ['rock', 'paper', 'scissors', 'lizard', 'spock'].sample
+
+    prompt("You chose: '#{ans.values.shift}' Computer chose: '#{comp_choice}'")
+
+    result = display_results(ans.values.shift, comp_choice)
+
+    prompt(display_results(ans.values.shift, comp_choice))
+
+    if result == "You won!"
+      player_count += 1
+    elsif result == "Computer won!"
+      comp_count += 1
+    end
+
+    prompt("Score: Computer: #{comp_count} You: #{player_count}
+      Go again!")
+
+    if comp_count == 3
+      puts "Game over. Computer won!"
+    elsif player_count == 3
+      puts "Game over. You win!"
     end
   end
 
-  computer_choice = ['rock', 'paper', 'scissors', 'lizard', 'spock'].sample
-
-  prompt("You chose: #{ans.values.shift}; Computer chose: #{computer_choice}")
-
-  display_results(ans.values.shift, computer_choice)
-  
   prompt("Do you want to play again?")
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
 
 prompt("Thanks for playing!")
-
