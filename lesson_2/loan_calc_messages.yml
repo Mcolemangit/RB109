@@ -1,7 +1,6 @@
-
 welcome: "Hello. Welcome to the LS loan calculator. Please enter loan amount:"
 invalid: "Invalid input. Please enter valid amount:"
-duration: "Now, enter the duration of the loan. Please specify months or years:"
+duration: "Now, enter the duration of the loan. Please specify months or years (i.e. '1 year' or '18 months'):"
 invalid2: "You need to specify months or years."
 again: "Do you want to calculate another monthly payment? (Y to calculate again)"
 apr: "Please enter the Annual Percentage Rate (APR):"

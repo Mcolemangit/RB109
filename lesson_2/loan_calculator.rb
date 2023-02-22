@@ -21,7 +21,7 @@ def monthly_payment(l, j, n)
   l * (j / (1 - (1 + j)**(-n)))
 end
 
-loop do # main loop
+def get_amount
   loan_amount = ''
   loop do
     prompt(MESSAGES['welcome'])
@@ -33,36 +33,53 @@ loop do # main loop
       prompt(MESSAGES['invalid'])
     end
   end
+  loan_amount
+end
 
-  loan_amount = loan_amount.to_i
-
+def get_duration
   loan_duration = ''
   loop do
     prompt(MESSAGES['duration'])
     loan_duration = gets.chomp.split
 
     if loan_duration.any? do |x|
-         ['month', 'months', 'year', 'years'].include? x
-       end
+      ['month', 'months', 'year', 'years'].include? x
+    end
       break
     else
       prompt(MESSAGES['invalid2'])
     end
   end
+  loan_duration
+end
 
-  length = loan_duration[0].to_f
-
+def get_interest
   interest = ''
   loop do
     prompt(MESSAGES['apr'])
     interest = gets.chomp
 
-    if number?(interest)
+    if number?(interest) && interest.to_i != 0
       break
     else
       prompt(MESSAGES['invalid'])
     end
   end
+  interest
+end
+
+
+loop do # main loop
+
+  loan_amount = get_amount
+
+  loan_amount = loan_amount.to_i
+
+  loan_duration = get_duration
+
+  length = loan_duration[0].to_f
+
+  interest = get_interest
 
   apr = interest.to_f
 
@@ -75,7 +92,7 @@ loop do # main loop
     result = monthly_payment(loan_amount, monthly_apr, length)
   end
 
-  puts "Your monthly payment is #{result}."
+  puts "Your monthly payment is #{format('%.2f', result)}."
 
   prompt(MESSAGES['again'])
   answer = Kernel.gets.chomp

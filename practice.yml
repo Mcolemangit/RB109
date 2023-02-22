@@ -1,0 +1,7 @@
+welcome: "Welcome to the LS loan calculator! Let's figure out what your monthly payments will look like. First, enter total loan amount:"
+error_1: "That's not a valid amount. Please try again.."
+years: "Next, enter the number of years you'd like the loan to be for:"
+error_2: "That's not a valid number of years. Please try again.."
+goodbye: "Thank you for using the LS loan caculator. Goodbye! "
+interest: "Enter the current APR"
+error_3: ""
