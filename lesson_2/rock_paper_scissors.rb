@@ -1,81 +1,84 @@
-VALID_CHOICES = { 'r' => 'rock', 'p' => 'paper', 's' => 'scissors',
-                  'l' => 'lizard', 'sp' => 'spock' }
+VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
 def prompt(message)
-  puts "=>#{message}"
+  puts "=> #{message}"
+end
+
+def get_choice
+  choice = ''
+  loop do
+    prompt("Choose one of the following by entering the first letter.
+    For 'spock' enter 'sp' , for 'scissors' 'sc': #{VALID_CHOICES.join(', ')}")
+    choice = gets.chomp
+
+    if VALID_CHOICES.select { |element| element.start_with?(choice) }.empty?
+      prompt("That's not a valid choice.")
+    else
+      break
+    end
+  end
+  VALID_CHOICES.select { |element| element.start_with?(choice) }
 end
 
 def win?(first, second)
-  (first == 'rock' && second == 'scissors') ||
-    (first == 'paper' && second == 'rock') ||
-    (first == 'scissors' && second == 'paper') ||
-    (first == 'rock' && second == 'lizard') ||
-    (first == 'lizard' && second == 'spock') ||
-    (first == 'spock' && second == 'scissors') ||
-    (first == 'scissors' && second == 'lizard') ||
-    (first == 'lizard' && second == 'paper') ||
-    (first == 'paper' && second == 'spock') ||
-    (first == 'spock' && second == 'rock')
+  (first == 'rock' && (second == 'scissors' || second == 'lizard')) ||
+    (first == 'paper' && (second == 'rock' || second == 'spock')) ||
+    (first == 'scissors' && (second == 'paper' || second == 'lizard')) ||
+    (first == 'lizard' && (second == 'spock' || second == 'paper')) ||
+    (first == 'spock' && (second == 'scissors' || second == 'rock'))
 end
 
 def display_results(player, computer)
   if win?(player, computer)
-    ("You won!")
+    "You won!"
   elsif win?(computer, player)
-    ("Computer won!")
+    "Computer won!"
   else
-    ("It's a tie!")
+    "It's a tie!"
+  end
+end
+
+def final_display(winner)
+  if winner == 3
+    prompt("Game over. You are the winner!")
+  else
+    prompt("Game over. Computer is the winner!")
   end
 end
 
 loop do
-  comp_count = 0
+  system("clear")
   player_count = 0
-  prompt(" Welcome to RPSLS! Choose one: #{VALID_CHOICES.values}.
-    (Example: 'r' for rock etc. For 'spock', specify 'sp'.)
-    First to win three games wins the match. Good Luck!")
-  until comp_count == 3 || player_count == 3
+  comp_count = 0
+  prompt("Welcome to RPSLS! First to win three matches wins the game.")
 
-    choice = ''
-    ans = ''
-    loop do
-      choice = gets.chomp
-      ans = VALID_CHOICES.select { |key, _| key == choice }
-      system 'clear'
-      if ans.keys.include?(choice)
-        break
-      else
-        prompt("That's not as valid choice.")
-      end
-    end
+  until player_count == 3 || comp_count == 3
 
-    comp_choice = ['rock', 'paper', 'scissors', 'lizard', 'spock'].sample
+    puts "Score: You:#{player_count} Computer:#{comp_count}"
 
-    prompt("You chose: '#{ans.values.shift}' Computer chose: '#{comp_choice}'")
+    player_choice = get_choice.join
+    computer_choice = VALID_CHOICES.sample
 
-    result = display_results(ans.values.shift, comp_choice)
+    prompt("You chose #{player_choice}, computer chose #{computer_choice}")
 
-    prompt(display_results(ans.values.shift, comp_choice))
+    result = display_results(player_choice.to_s, computer_choice)
+
+    prompt(result)
 
     if result == "You won!"
       player_count += 1
     elsif result == "Computer won!"
       comp_count += 1
     end
-
-    prompt("Score: Computer: #{comp_count} You: #{player_count}
-      Go again!")
-
-    if comp_count == 3
-      puts "Game over. Computer won!"
-    elsif player_count == 3
-      puts "Game over. You win!"
-    end
   end
 
-  prompt("Do you want to play again?")
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
-end
+  puts "Score: You:#{player_count} Computer:#{comp_count}"
 
+  final_display(player_count)
+
+  prompt("Would you like to play again? Type 'Y' to play again.")
+  ans = gets.chomp
+  break if ans.downcase != "y"
+end
 prompt("Thanks for playing!")
+
