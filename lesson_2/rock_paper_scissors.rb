@@ -1,6 +1,6 @@
 VALID_CHOICES = { 'r' => 'rock', 'p' => 'paper', 's' => 'scissors',
   'l' => 'lizard', 'sp' => 'spock' }
-
+# Methods
 def prompt(message)
 puts "=> #{message}"
 end
@@ -52,7 +52,7 @@ else
 prompt("Game over. Computer is the winner!")
 end
 end
-
+# Game 
 loop do
 system("clear")
 player_count = 0
