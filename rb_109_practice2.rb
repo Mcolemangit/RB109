@@ -1,6 +1,9 @@
+require 'yaml'
+MSGS = YAML.load_file('practice.yml')
+
 VALID_CHOICES = { 'r' => 'rock', 'p' => 'paper', 's' => 'scissors',
                   'l' => 'lizard', 'sp' => 'spock' }
-
+# Methods
 def prompt(message)
   puts "=> #{message}"
 end
@@ -8,31 +11,29 @@ end
 def get_choice
   choice = ''
   loop do
-    prompt("Choose one of the following by entering the first letter:
-      (For 'spock' enter 'sp')   #{VALID_CHOICES.values.join(', ')}")
+    prompt(MSGS['start'])
     choice = gets.chomp
 
-    if VALID_CHOICES.key?(choice) == false
-      prompt("That's not a valid choice.")
-    else
+    if VALID_CHOICES.key?(choice)
       break
+    else
+      prompt(MSGS['error'])
     end
   end
   VALID_CHOICES.fetch(choice)
 end
 
 def win?(first, second)
-  winners = { 'rock' => ['lizard', 'scissors'], 'paper' => ['rock', 'spock'],
-              'scissors' => ['paper', 'lizard'], 'lizard' => ['spock', 'paper'],
+  winners = { 'rock' => ['lizard', 'scissors'],
+              'paper' => ['rock', 'spock'],
+              'scissors' => ['paper', 'lizard'],
+              'lizard' => ['spock', 'paper'],
               'spock' => ['rock', 'scissors'] }
-  check_win = winners.map do |key, value|
-    key == first && value.include?(second)
-  end
-  check_win.include?(true)
+  winners[first].include?(second)
 end
 
 def display_score(player, computer)
-  puts "Score: You:#{player} Computer:#{computer}"
+  prompt("Score: You:#{player} Computer:#{computer}")
 end
 
 def display_results(player, computer)
@@ -47,17 +48,17 @@ end
 
 def display_final(winner)
   if winner == 3
-    prompt("Game over. You are the winner!")
+    prompt(MSGS['winner'])
   else
-    prompt("Game over. Computer is the winner!")
+    prompt(MSGS['loser'])
   end
 end
-
+# Game
 loop do
   system("clear")
   player_count = 0
   computer_count = 0
-  prompt("Welcome to RPSLS! First to win three matches wins the game.")
+  prompt(MSGS['welcome'])
 
   until player_count == 3 || computer_count == 3
 
@@ -68,7 +69,7 @@ loop do
 
     prompt("You chose #{player_choice}, computer chose #{computer_choice}")
 
-    result = display_results(player_choice.to_s, computer_choice)
+    result = display_results(player_choice, computer_choice)
 
     prompt(result)
 
@@ -83,8 +84,10 @@ loop do
 
   display_final(player_count)
 
-  prompt("Would you like to play again? Type 'Y' to play again.")
+  prompt(MSGS['again'])
   answer = gets.chomp
   break if answer.downcase != "y"
 end
-prompt("Thanks for playing!")
+prompt(MSGS['thanks'])
+
+
